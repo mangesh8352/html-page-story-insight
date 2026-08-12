@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahir MIA — Story & Insight Uploader</title>
+  <meta name="description" content="Admin panel for uploading Market Stories and Market Insights to Mahir MIA backend">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ───────────────────────── DESIGN TOKENS ───────────────────────── */
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1a2035;
+      --bg-card-hover: #1f2847;
+      --bg-input: #0d1424;
+      --border-color: #2a3550;
+      --border-active: #6366f1;
+      --text-primary: #f0f4ff;
+      --text-secondary: #8b95b0;
+      --text-muted: #5a6580;
+      --accent-indigo: #6366f1;
+      --accent-violet: #8b5cf6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-cyan: #06b6d4;
+      --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+      --gradient-success: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+      --gradient-danger: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+      --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      --gradient-card: linear-gradient(145deg, rgba(26, 32, 53, 0.9) 0%, rgba(17, 24, 39, 0.95) 100%);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ───────────────────────── RESET & BASE ───────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ───────────────────────── HEADER ───────────────────────── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      background: rgba(10, 14, 26, 0.85);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+      padding: 0 32px;
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.3px;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .api-url-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--accent-emerald);
+      font-weight: 500;
+    }
+
+    .api-url-badge .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent-emerald);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
+    }
+
+    /* ───────────────────────── TABS ───────────────────────── */
+    .tabs-container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 32px auto 0;
+      padding: 0 32px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      padding: 5px;
+      border: 1px solid var(--border-color);
+      width: fit-content;
+    }
+
+    .tab-btn {
+      padding: 12px 28px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    .tab-btn.active {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .tab-btn .tab-icon {
+      font-size: 16px;
+    }
+
+    /* ───────────────────────── MAIN CONTENT ───────────────────────── */
+    .main {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 24px auto;
+      padding: 0 32px 60px;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ───────────────────────── SECTION CARDS ───────────────────────── */
+    .section-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+
+    .section-card:hover {
+      border-color: rgba(99, 102, 241, 0.25);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(42, 53, 80, 0.6);
+    }
+
+    .section-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .section-icon.indigo {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--accent-indigo);
+    }
+
+    .section-icon.violet {
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--accent-violet);
+    }
+
+    .section-icon.emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+    }
+
+    .section-icon.amber {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-amber);
+    }
+
+    .section-icon.cyan {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .section-icon.rose {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--accent-rose);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .s3-badge {
+      margin-left: auto;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      color: var(--accent-cyan);
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      letter-spacing: 0.3px;
+    }
+
+    /* ───────────────────────── FORM ELEMENTS ───────────────────────── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-label .required {
+      color: var(--accent-rose);
+      font-size: 14px;
+    }
+
+    .form-label .optional {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 11px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 14px;
+      transition: var(--transition);
+      outline: none;
+      width: 100%;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent-indigo);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238b95b0' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    select option {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    /* ───────────────────────── FILE UPLOAD ───────────────────────── */
+    .file-upload-area {
+      position: relative;
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      background: rgba(13, 20, 36, 0.5);
+    }
+
+    .file-upload-area:hover,
+    .file-upload-area.dragover {
+      border-color: var(--accent-indigo);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .file-upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-upload-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .file-upload-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .file-upload-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .file-preview {
+      display: none;
+      margin-top: 12px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .file-preview.active {
+      display: block;
+    }
+
+    .file-preview img,
+    .file-preview video {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .file-preview .file-name {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      text-align: center;
+      word-break: break-all;
+    }
+
+    .file-preview .remove-file {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 26px;
+      height: 26px;
+      background: rgba(244, 63, 94, 0.9);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      backdrop-filter: blur(4px);
+    }
+
+    .file-preview .remove-file:hover {
+      background: var(--accent-rose);
+      transform: scale(1.1);
+    }
+
+    /* ───────────────────────── BUTTONS ───────────────────────── */
+    .btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: var(--gradient-success);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-success:hover:not(:disabled) {
+      box-shadow: 0 6px 25px rgba(16, 185, 129, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      border-color: var(--accent-indigo);
+      color: var(--accent-indigo);
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      justify-content: flex-end;
+    }
+
+    /* ───────────────────────── CHECKBOX / TOGGLE ───────────────────────── */
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      appearance: none;
+      background: var(--border-color);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: var(--transition);
+      outline: none;
+      border: none;
+      flex-shrink: 0;
+    }
+
+    .toggle::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .toggle:checked {
+      background: var(--accent-emerald);
+    }
+
+    .toggle:checked::before {
+      transform: translateX(22px);
+    }
+
+    .toggle-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ───────────────────────── TOAST NOTIFICATIONS ───────────────────────── */
+    .toast-container {
+      position: fixed;
+      top: 84px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      min-width: 340px;
+      max-width: 480px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(20px);
+    }
+
+    .toast.removing {
+      animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+    }
+
+    .toast-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .toast.success {
+      border-left: 3px solid var(--accent-emerald);
+    }
+
+    .toast.success .toast-icon {
+      color: var(--accent-emerald);
+    }
+
+    .toast.error {
+      border-left: 3px solid var(--accent-rose);
+    }
+
+    .toast.error .toast-icon {
+      color: var(--accent-rose);
+    }
+
+    .toast.info {
+      border-left: 3px solid var(--accent-cyan);
+    }
+
+    .toast.info .toast-icon {
+      color: var(--accent-cyan);
+    }
+
+    .toast-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .toast-message {
+      font-size: 13px;
+      color: var(--text-secondary);
+      word-break: break-word;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .toast-close:hover {
+      color: var(--text-primary);
+    }
+
+    /* ───────────────────────── LOADING SPINNER ───────────────────────── */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255, 255, 255, 0.25);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ───────────────────────── EXISTING ITEMS LIST ───────────────────────── */
+    .existing-list {
+      margin-top: 20px;
+    }
+
+    .existing-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .existing-list-header h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .refresh-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--accent-indigo);
+      color: var(--accent-indigo);
+    }
+
+    .list-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .list-items::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .list-items::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .list-items::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(13, 20, 36, 0.6);
+      border: 1px solid rgba(42, 53, 80, 0.4);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .list-item:hover {
+      border-color: rgba(99, 102, 241, 0.2);
+      background: rgba(99, 102, 241, 0.04);
+    }
+
+    .list-item-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--bg-secondary);
+      flex-shrink: 0;
+    }
+
+    .list-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .list-item-title {
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .list-item-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    .list-item-id {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      background: rgba(42, 53, 80, 0.5);
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+
+    .list-item-id:hover {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--accent-indigo);
+    }
+
+    .status-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .status-badge.active {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+    }
+
+    .status-badge.inactive {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--accent-rose);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .empty-state .empty-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+
+    /* ───────────────────────── RESPONSIVE ───────────────────────── */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 16px;
+      }
+
+      .tabs-container,
+      .main {
+        padding: 0 16px;
+      }
+
+      .main {
+        padding-bottom: 40px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-card {
+        padding: 20px;
+      }
+
+      .api-url-badge {
+        display: none;
+      }
+
+      .s3-badge {
+        display: none;
+      }
+
+      .tabs {
+        width: 100%;
+      }
+
+      .tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ════════════════════════ HEADER ════════════════════════ -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">M</div>
+        <div>
+          <div class="logo-text">Mahir MIA</div>
+          <div class="logo-sub">Content Manager</div>
+        </div>
+      </div>
+      <div class="api-url-badge">
+        <span class="dot"></span>
+        <span id="apiUrlDisplay">https://api.mahiradvisers.com</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════ LOGIN OVERLAY ════════════════════════ -->
+  <div id="loginOverlay" style="display:none; position:fixed; inset:0; z-index:9998; background:var(--bg-primary); display:flex; align-items:center; justify-content:center;">
+    <div style="width:100%; max-width:420px; padding:0 24px;">
+      <div class="section-card" style="text-align:center;">
+        <div style="margin-bottom:28px;">
+          <div class="logo-icon" style="width:56px;height:56px;font-size:26px;margin:0 auto 16px;">M</div>
+          <div class="logo-text" style="font-size:24px; -webkit-text-fill-color:transparent;">Mahir MIA</div>
+          <div style="color:var(--text-muted);font-size:13px;margin-top:4px;">Sign in to Content Manager</div>
+        </div>
+        <form id="loginForm" style="text-align:left;">
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label">Email <span class="required">*</span></label>
+            <input type="text" id="loginEmail" placeholder="admin@example.com" required>
+          </div>
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Password <span class="required">*</span></label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary" id="btnLogin" style="width:100%;justify-content:center;padding:14px;">
+            🔐 Sign In
+          </button>
+          <div id="loginError" style="display:none;margin-top:14px;padding:10px 14px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);border-radius:8px;color:var(--accent-rose);font-size:13px;text-align:center;"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ TABS ════════════════════════ -->
+  <div class="tabs-container" id="appContent" style="display:none;">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="stories" id="tab-stories">
+        <span class="tab-icon">📖</span> Market Stories
+      </button>
+      <button class="tab-btn" data-tab="insights" id="tab-insights">
+        <span class="tab-icon">📊</span> Market Insights
+      </button>
+      <button class="btn btn-outline" onclick="logout()" style="margin-left:auto;padding:8px 16px;font-size:12px;">
+        🚪 Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ MAIN CONTENT ════════════════════════ -->
+  <main class="main" id="mainContent" style="display:none;">
+
+    <!-- ━━━━━━━━━━━━━━━━━━━ STORIES TAB ━━━━━━━━━━━━━━━━━━━ -->
+    <div class="tab-panel active" id="panel-stories">
+
+      <!-- ─── Story Category ─── -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon indigo">📂</div>
+          <div>
+            <div class="section-title">Create Story Category</div>
+            <div class="section-subtitle">Top-level grouping for market stories</div>
+          </div>
+          <div class="s3-badge">S3: market-stories/thumbnails</div>
+        </div>
+
+        <form id="formStoryCategory" class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Title <span class="required">*</span></label>
+            <input type="text" id="storyCatTitle" placeholder="e.g. Year-in-Review" maxlength="150" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sort Order <span class="optional">(optional)</span></label>
+            <input type="number" id="storyCatSortOrder" placeholder="1" min="1">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Thumbnail Image <span class="optional">(optional)</span></label>
+            <div class="file-upload-area" id="storyCatFileArea">
+              <input type="file" id="storyCatFile" accept="image/*">
+              <div class="file-upload-icon">🖼️</div>
+              <div class="file-upload-text">Drop an image or click to browse</div>
+              <div class="file-upload-hint">Max 10 MB · JPG, PNG, WebP</div>
+            </div>
+            <div class="file-preview" id="storyCatPreview">
+              <button type="button" class="remove-file" onclick="clearFile('storyCat')" title="Remove">✕</button>
+              <img id="storyCatPreviewImg" src="" alt="Preview">
+              <div class="file-name" id="storyCatFileName"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="toggle-wrapper">
+              <input type="checkbox" class="toggle" id="storyCatActive" checked>
+              <span class="toggle-label">Active</span>
+            </div>
+          </div>
+          <div class="form-actions full-width">
+            <button type="reset" class="btn btn-outline" onclick="clearFile('storyCat')">Reset</button>
+            <button type="submit" class="btn btn-primary" id="btnCreateStoryCategory">
+              Create Category
+            </button>
+          </div>
+        </form>
+
+        <!-- Existing categories list -->
+        <div class="existing-list">
+          <div class="existing-list-header">
+            <h4>Existing Story Categories</h4>
+            <button class="refresh-btn" onclick="loadStoryCategories()">🔄 Refresh</button>
+          </div>
+          <div class="list-items" id="storyCategoriesList">
+            <div class="empty-state">
+              <div class="empty-icon">📂</div>Click Refresh to load
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Story ─── -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon violet">📰</div>
+          <div>
+            <div class="section-title">Create Story</div>
+            <div class="section-subtitle">Individual story page within a category</div>
+          </div>
+          <div class="s3-badge">S3: market-stories/images</div>
+        </div>
+
+        <form id="formStory" class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Category <span class="required">*</span></label>
+            <select id="storyCategorySelect" required>
+              <option value="">— Select a category —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Title <span class="required">*</span></label>
+            <input type="text" id="storyTitle" placeholder="e.g. Can big AI IPOs Crash the US Markets?" maxlength="250"
+              required>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Description <span class="optional">(optional)</span></label>
+            <textarea id="storyDesc" placeholder="Stocks and market analysis by mahir experts."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sort Order <span class="optional">(optional)</span></label>
+            <input type="number" id="storySortOrder" placeholder="1" min="1">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Story Image <span class="optional">(optional)</span></label>
+            <div class="file-upload-area" id="storyFileArea">
+              <input type="file" id="storyFile" accept="image/*">
+              <div class="file-upload-icon">🖼️</div>
+              <div class="file-upload-text">Drop a story image or click to browse</div>
+              <div class="file-upload-hint">Max 10 MB · JPG, PNG, WebP</div>
+            </div>
+            <div class="file-preview" id="storyPreview">
+              <button type="button" class="remove-file" onclick="clearFile('story')" title="Remove">✕</button>
+              <img id="storyPreviewImg" src="" alt="Preview">
+              <div class="file-name" id="storyFileName"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="toggle-wrapper">
+              <input type="checkbox" class="toggle" id="storyActive" checked>
+              <span class="toggle-label">Active</span>
+            </div>
+          </div>
+          <div class="form-actions full-width">
+            <button type="reset" class="btn btn-outline" onclick="clearFile('story')">Reset</button>
+            <button type="submit" class="btn btn-primary" id="btnCreateStory">
+              Create Story
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━ INSIGHTS TAB ━━━━━━━━━━━━━━━━━━━ -->
+    <div class="tab-panel" id="panel-insights">
+
+      <!-- ─── Insight Category (Main Category) ─── -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon emerald">📁</div>
+          <div>
+            <div class="section-title">Create Insight Category</div>
+            <div class="section-subtitle">Top-level main category for market insights</div>
+          </div>
+          <div class="s3-badge">S3: market-insight-categories</div>
+        </div>
+
+        <form id="formInsightCategory" class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Title <span class="required">*</span></label>
+            <input type="text" id="insightCatTitle" placeholder="e.g. Equity Markets" maxlength="150" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sort Order <span class="required">*</span></label>
+            <input type="number" id="insightCatSortOrder" placeholder="1" min="1" required>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Description <span class="required">*</span></label>
+            <textarea id="insightCatDesc" placeholder="Weekly insights on equity market movements." required></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Thumbnail Image <span class="optional">(optional)</span></label>
+            <div class="file-upload-area" id="insightCatFileArea">
+              <input type="file" id="insightCatFile" accept="image/*">
+              <div class="file-upload-icon">🖼️</div>
+              <div class="file-upload-text">Drop a thumbnail image or click to browse</div>
+              <div class="file-upload-hint">Max 10 MB · JPG, PNG, WebP</div>
+            </div>
+            <div class="file-preview" id="insightCatPreview">
+              <button type="button" class="remove-file" onclick="clearFile('insightCat')" title="Remove">✕</button>
+              <img id="insightCatPreviewImg" src="" alt="Preview">
+              <div class="file-name" id="insightCatFileName"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="toggle-wrapper">
+              <input type="checkbox" class="toggle" id="insightCatActive" checked>
+              <span class="toggle-label">Active</span>
+            </div>
+          </div>
+          <div class="form-actions full-width">
+            <button type="reset" class="btn btn-outline" onclick="clearFile('insightCat')">Reset</button>
+            <button type="submit" class="btn btn-primary" id="btnCreateInsightCategory">
+              Create Insight Category
+            </button>
+          </div>
+        </form>
+
+        <div class="existing-list">
+          <div class="existing-list-header">
+            <h4>Existing Insight Categories</h4>
+            <button class="refresh-btn" onclick="loadInsightCategories()">🔄 Refresh</button>
+          </div>
+          <div class="list-items" id="insightCategoriesList">
+            <div class="empty-state">
+              <div class="empty-icon">📁</div>Click Refresh to load
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Market Insight (Inner Category) ─── -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon amber">📋</div>
+          <div>
+            <div class="section-title">Create Market Insight (Inner Category)</div>
+            <div class="section-subtitle">Sub-group within a main insight category</div>
+          </div>
+          <div class="s3-badge">S3: market-insights</div>
+        </div>
+
+        <form id="formInsight" class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Parent Category <span class="required">*</span></label>
+            <select id="insightCategorySelect" required>
+              <option value="">— Select a category —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Title <span class="required">*</span></label>
+            <input type="text" id="insightTitle" placeholder="e.g. Q3 Market Recap" maxlength="200" required>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Description <span class="optional">(optional)</span></label>
+            <textarea id="insightDesc" placeholder="Daily and weekly equity insights overview"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sort Order <span class="required">*</span></label>
+            <input type="number" id="insightSortOrder" placeholder="1" min="1" required>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Thumbnail Image <span class="optional">(optional)</span></label>
+            <div class="file-upload-area" id="insightFileArea">
+              <input type="file" id="insightFile" accept="image/*">
+              <div class="file-upload-icon">🖼️</div>
+              <div class="file-upload-text">Drop a thumbnail image or click to browse</div>
+              <div class="file-upload-hint">Max 10 MB · JPG, PNG, WebP</div>
+            </div>
+            <div class="file-preview" id="insightPreview">
+              <button type="button" class="remove-file" onclick="clearFile('insight')" title="Remove">✕</button>
+              <img id="insightPreviewImg" src="" alt="Preview">
+              <div class="file-name" id="insightFileName"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="toggle-wrapper">
+              <input type="checkbox" class="toggle" id="insightActive" checked>
+              <span class="toggle-label">Active</span>
+            </div>
+          </div>
+          <div class="form-actions full-width">
+            <button type="reset" class="btn btn-outline" onclick="clearFile('insight')">Reset</button>
+            <button type="submit" class="btn btn-primary" id="btnCreateInsight">
+              Create Insight
+            </button>
+          </div>
+        </form>
+
+        <div class="existing-list">
+          <div class="existing-list-header">
+            <h4>Existing Market Insights</h4>
+            <button class="refresh-btn" onclick="loadInsights()">🔄 Refresh</button>
+          </div>
+          <div class="list-items" id="insightsList">
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>Click Refresh to load
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Market Insight Item ─── -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon cyan">📝</div>
+          <div>
+            <div class="section-title">Create Insight Item</div>
+            <div class="section-subtitle">Individual content piece with image/video support</div>
+          </div>
+          <div class="s3-badge">S3: market-insight-items</div>
+        </div>
+
+        <form id="formInsightItem" class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Parent Market Insight <span class="required">*</span></label>
+            <select id="insightItemParentSelect" required>
+              <option value="">— Select a market insight —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Title <span class="required">*</span></label>
+            <input type="text" id="insightItemTitle" placeholder="e.g. Key Takeaways for Today" maxlength="200"
+              required>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Description <span class="required">*</span></label>
+            <textarea id="insightItemDesc" placeholder="Detailed analysis of market movements today..."
+              required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Creator Name <span class="required">*</span></label>
+            <input type="text" id="insightItemCreator" placeholder="e.g. Yash Bedmuttha" maxlength="150" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sort Order <span class="required">*</span></label>
+            <input type="number" id="insightItemSortOrder" placeholder="1" min="1" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Image <span class="optional">(optional)</span></label>
+            <div class="file-upload-area" id="insightItemImageArea">
+              <input type="file" id="insightItemImageFile" accept="image/*">
+              <div class="file-upload-icon">🖼️</div>
+              <div class="file-upload-text">Drop an image</div>
+              <div class="file-upload-hint">Max 10 MB</div>
+            </div>
+            <div class="file-preview" id="insightItemImagePreview">
+              <button type="button" class="remove-file" onclick="clearFile('insightItemImage')"
+                title="Remove">✕</button>
+              <img id="insightItemImagePreviewImg" src="" alt="Preview">
+              <div class="file-name" id="insightItemImageFileName"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Video <span class="optional">(optional)</span></label>
+            <div class="file-upload-area" id="insightItemVideoArea">
+              <input type="file" id="insightItemVideoFile" accept="video/*">
+              <div class="file-upload-icon">🎬</div>
+              <div class="file-upload-text">Drop a video</div>
+              <div class="file-upload-hint">Max 100 MB</div>
+            </div>
+            <div class="file-preview" id="insightItemVideoPreview">
+              <button type="button" class="remove-file" onclick="clearFile('insightItemVideo')"
+                title="Remove">✕</button>
+              <video id="insightItemVideoPreviewVid" src="" controls></video>
+              <div class="file-name" id="insightItemVideoFileName"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="toggle-wrapper">
+              <input type="checkbox" class="toggle" id="insightItemActive" checked>
+              <span class="toggle-label">Active</span>
+            </div>
+          </div>
+          <div class="form-actions full-width">
+            <button type="reset" class="btn btn-outline"
+              onclick="clearFile('insightItemImage');clearFile('insightItemVideo')">Reset</button>
+            <button type="submit" class="btn btn-success" id="btnCreateInsightItem">
+              Create Insight Item
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- ════════════════════════ TOAST CONTAINER ════════════════════════ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ════════════════════════ JAVASCRIPT ════════════════════════ -->
+  <script>
+    // ────────────────────── CONFIG ──────────────────────
+    const API_BASE = 'https://api.mahiradvisers.com';
+
+    // Exact S3 folder names from .env
+    const S3_FOLDERS = {
+      STORY_CATEGORY_THUMBNAIL: 'market-stories/thumbnails',
+      STORY_IMAGE: 'market-stories/images',
+      INSIGHT_CATEGORY: 'market-insight-categories',
+      INSIGHT: 'market-insights',
+      INSIGHT_ITEM: 'market-insight-items',
+    };
+
+    // ────────────────────── AUTH TOKEN MANAGEMENT ──────────────────────
+    let AUTH_TOKEN = localStorage.getItem('mahir_admin_token') || '';
+
+    function getAuthHeaders() {
+      return AUTH_TOKEN ? { 'Authorization': `Bearer ${AUTH_TOKEN}` } : {};
+    }
+
+    function showApp() {
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('appContent').style.display = '';
+      document.getElementById('mainContent').style.display = '';
+      loadStoryCategories();
+      loadInsightCategories();
+      loadInsights();
+    }
+
+    function showLogin() {
+      document.getElementById('loginOverlay').style.display = 'flex';
+      document.getElementById('appContent').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'none';
+    }
+
+    function logout() {
+      AUTH_TOKEN = '';
+      localStorage.removeItem('mahir_admin_token');
+      showLogin();
+      showToast('info', 'Logged Out', 'You have been signed out.');
+    }
+
+    // Login form handler
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnLogin');
+      const errorDiv = document.getElementById('loginError');
+      errorDiv.style.display = 'none';
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Signing in…';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('loginEmail').value.trim(),
+            password: document.getElementById('loginPassword').value,
+          }),
+        });
+        const json = await res.json();
+        if (!res.ok) {
+          const msg = json.message || JSON.stringify(json);
+          throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+        }
+        const data = json.data || json;
+        const token = data.accessToken || data.access_token || data.token;
+        if (!token) throw new Error('No access token returned from server.');
+
+        AUTH_TOKEN = token;
+        localStorage.setItem('mahir_admin_token', token);
+        showToast('success', 'Welcome!', 'Signed in successfully.');
+        showApp();
+      } catch (err) {
+        errorDiv.textContent = err.message;
+        errorDiv.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🔐 Sign In';
+      }
+    });
+
+    // Auto-check token on load
+    (async function checkExistingToken() {
+      if (!AUTH_TOKEN) { showLogin(); return; }
+      try {
+        // Validate token by calling a simple GET
+        const res = await fetch(`${API_BASE}/market-story-categories`, {
+          headers: { 'Authorization': `Bearer ${AUTH_TOKEN}` },
+        });
+        if (res.ok) {
+          showApp();
+        } else {
+          AUTH_TOKEN = '';
+          localStorage.removeItem('mahir_admin_token');
+          showLogin();
+        }
+      } catch {
+        showLogin();
+      }
+    })();
+
+    // ────────────────────── TOAST SYSTEM ──────────────────────
+    function showToast(type, title, message) {
+      const container = document.getElementById('toastContainer');
+      const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <span class="toast-icon">${icons[type]}</span>
+        <div class="toast-body">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.classList.add('removing');setTimeout(()=>this.parentElement.remove(),300)">✕</button>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentElement) {
+          toast.classList.add('removing');
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 6000);
+    }
+
+    // ────────────────────── TAB NAVIGATION ──────────────────────
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`panel-${btn.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    // ────────────────────── FILE PREVIEW HELPERS ──────────────────────
+    // Mapping of prefix -> { input, preview container, preview element, name element, type }
+    const fileConfigs = {
+      storyCat: { inputId: 'storyCatFile', previewId: 'storyCatPreview', imgId: 'storyCatPreviewImg', nameId: 'storyCatFileName', type: 'image' },
+      story: { inputId: 'storyFile', previewId: 'storyPreview', imgId: 'storyPreviewImg', nameId: 'storyFileName', type: 'image' },
+      insightCat: { inputId: 'insightCatFile', previewId: 'insightCatPreview', imgId: 'insightCatPreviewImg', nameId: 'insightCatFileName', type: 'image' },
+      insight: { inputId: 'insightFile', previewId: 'insightPreview', imgId: 'insightPreviewImg', nameId: 'insightFileName', type: 'image' },
+      insightItemImage: { inputId: 'insightItemImageFile', previewId: 'insightItemImagePreview', imgId: 'insightItemImagePreviewImg', nameId: 'insightItemImageFileName', type: 'image' },
+      insightItemVideo: { inputId: 'insightItemVideoFile', previewId: 'insightItemVideoPreview', imgId: 'insightItemVideoPreviewVid', nameId: 'insightItemVideoFileName', type: 'video' },
+    };
+
+    // Setup file previews
+    Object.entries(fileConfigs).forEach(([prefix, cfg]) => {
+      const input = document.getElementById(cfg.inputId);
+      input.addEventListener('change', () => {
+        const file = input.files[0];
+        if (!file) return;
+        const preview = document.getElementById(cfg.previewId);
+        const media = document.getElementById(cfg.imgId);
+        const nameEl = document.getElementById(cfg.nameId);
+
+        const url = URL.createObjectURL(file);
+        media.src = url;
+        nameEl.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        preview.classList.add('active');
+      });
+
+      // Drag-and-drop
+      const area = input.closest('.file-upload-area');
+      if (area) {
+        area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
+        area.addEventListener('dragleave', () => area.classList.remove('dragover'));
+        area.addEventListener('drop', e => {
+          e.preventDefault();
+          area.classList.remove('dragover');
+          if (e.dataTransfer.files.length) {
+            input.files = e.dataTransfer.files;
+            input.dispatchEvent(new Event('change'));
+          }
+        });
+      }
+    });
+
+    function clearFile(prefix) {
+      const cfg = fileConfigs[prefix];
+      if (!cfg) return;
+      const input = document.getElementById(cfg.inputId);
+      const preview = document.getElementById(cfg.previewId);
+      const media = document.getElementById(cfg.imgId);
+      input.value = '';
+      media.src = '';
+      preview.classList.remove('active');
+    }
+
+    // ────────────────────── API HELPERS ──────────────────────
+    function handleAuthError(res) {
+      if (res.status === 401) {
+        AUTH_TOKEN = '';
+        localStorage.removeItem('mahir_admin_token');
+        showLogin();
+        showToast('error', 'Session Expired', 'Please sign in again.');
+        throw new Error('Session expired. Please sign in again.');
+      }
+    }
+
+    async function apiGet(path) {
+      const res = await fetch(`${API_BASE}/${path}`, {
+        headers: { ...getAuthHeaders() },
+      });
+      handleAuthError(res);
+      const json = await res.json();
+      if (!res.ok) {
+        const msg = json.message || JSON.stringify(json);
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+      }
+      return json.data !== undefined ? json.data : json;
+    }
+
+    async function apiPost(path, body) {
+      const res = await fetch(`${API_BASE}/${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        body: JSON.stringify(body),
+      });
+      handleAuthError(res);
+      const json = await res.json();
+      if (!res.ok) {
+        const msg = json.message || JSON.stringify(json);
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+      }
+      return json.data !== undefined ? json.data : json;
+    }
+
+    /**
+     * Upload file to S3 via POST /aws/upload
+     * Returns { key, url } from the backend
+     */
+    async function uploadFileToS3(file, folder) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', folder);
+
+      const res = await fetch(`${API_BASE}/aws/upload`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders() },
+        body: formData,
+      });
+      handleAuthError(res);
+      const json = await res.json();
+      if (!res.ok) {
+        const msg = json.message || JSON.stringify(json);
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+      }
+      return json.data !== undefined ? json.data : json;
+    }
+
+    function setButtonLoading(btn, loading) {
+      if (loading) {
+        btn.disabled = true;
+        btn._origHTML = btn.innerHTML;
+        btn.innerHTML = `<span class="spinner"></span> Uploading…`;
+      } else {
+        btn.disabled = false;
+        if (btn._origHTML) btn.innerHTML = btn._origHTML;
+      }
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('info', 'Copied', `ID copied to clipboard`);
+      });
+    }
+
+    // ────────────────────── LOAD EXISTING DATA ──────────────────────
+    async function loadStoryCategories() {
+      try {
+        const categories = await apiGet('market-story-categories');
+        const container = document.getElementById('storyCategoriesList');
+        const select = document.getElementById('storyCategorySelect');
+
+        // Update dropdown
+        select.innerHTML = '<option value="">— Select a category —</option>';
+        if (!categories.length) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">📂</div>No categories yet</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        categories.forEach(cat => {
+          // List item
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            ${cat.thumbnailImageUrl ? `<img class="list-item-thumb" src="${cat.thumbnailImageUrl}" alt="">` : `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px">📂</div>`}
+            <div class="list-item-info">
+              <div class="list-item-title">${escapeHtml(cat.title)}</div>
+              <div class="list-item-meta">
+                <span>Order: ${cat.sortOrder}</span>
+              </div>
+            </div>
+            <span class="list-item-id" onclick="copyToClipboard('${cat.id}')" title="Click to copy">${cat.id}</span>
+            <span class="status-badge ${cat.isActive ? 'active' : 'inactive'}">${cat.isActive ? 'Active' : 'Inactive'}</span>
+          `;
+          container.appendChild(div);
+
+          // Dropdown option
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.title;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        showToast('error', 'Load Failed', err.message);
+      }
+    }
+
+    async function loadInsightCategories() {
+      try {
+        const categories = await apiGet('market-insight-categories');
+        const container = document.getElementById('insightCategoriesList');
+        const select = document.getElementById('insightCategorySelect');
+
+        select.innerHTML = '<option value="">— Select a category —</option>';
+        if (!categories.length) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">📁</div>No categories yet</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        categories.forEach(cat => {
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            ${cat.thumbnailImageUrl ? `<img class="list-item-thumb" src="${cat.thumbnailImageUrl}" alt="">` : `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px">📁</div>`}
+            <div class="list-item-info">
+              <div class="list-item-title">${escapeHtml(cat.title)}</div>
+              <div class="list-item-meta">
+                <span>Order: ${cat.sortOrder}</span>
+                <span>${escapeHtml(cat.description || '').substring(0, 50)}</span>
+              </div>
+            </div>
+            <span class="list-item-id" onclick="copyToClipboard('${cat.id}')" title="Click to copy">${cat.id}</span>
+            <span class="status-badge ${cat.isActive ? 'active' : 'inactive'}">${cat.isActive ? 'Active' : 'Inactive'}</span>
+          `;
+          container.appendChild(div);
+
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.title;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        showToast('error', 'Load Failed', err.message);
+      }
+    }
+
+    async function loadInsights() {
+      try {
+        const insights = await apiGet('market-insights');
+        const container = document.getElementById('insightsList');
+        const select = document.getElementById('insightItemParentSelect');
+
+        select.innerHTML = '<option value="">— Select a market insight —</option>';
+        if (!insights.length) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>No insights yet</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        insights.forEach(ins => {
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            ${ins.thumbnailImageUrl ? `<img class="list-item-thumb" src="${ins.thumbnailImageUrl}" alt="">` : `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px">📋</div>`}
+            <div class="list-item-info">
+              <div class="list-item-title">${escapeHtml(ins.title)}</div>
+              <div class="list-item-meta">
+                <span>Order: ${ins.sortOrder}</span>
+              </div>
+            </div>
+            <span class="list-item-id" onclick="copyToClipboard('${ins.id}')" title="Click to copy">${ins.id}</span>
+            <span class="status-badge ${ins.isActive ? 'active' : 'inactive'}">${ins.isActive ? 'Active' : 'Inactive'}</span>
+          `;
+          container.appendChild(div);
+
+          const opt = document.createElement('option');
+          opt.value = ins.id;
+          opt.textContent = ins.title;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        showToast('error', 'Load Failed', err.message);
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+
+    // ────────────────────── FORM SUBMISSIONS ──────────────────────
+
+    // ── 1. Create Story Category ──
+    document.getElementById('formStoryCategory').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnCreateStoryCategory');
+      setButtonLoading(btn, true);
+
+      try {
+        let thumbnailImageKey = undefined;
+
+        // Upload thumbnail to S3 if selected
+        const fileInput = document.getElementById('storyCatFile');
+        if (fileInput.files[0]) {
+          const uploadResult = await uploadFileToS3(fileInput.files[0], S3_FOLDERS.STORY_CATEGORY_THUMBNAIL);
+          thumbnailImageKey = uploadResult.key;
+        }
+
+        const body = {
+          title: document.getElementById('storyCatTitle').value.trim(),
+          isActive: document.getElementById('storyCatActive').checked,
+        };
+
+        const sortOrder = document.getElementById('storyCatSortOrder').value;
+        if (sortOrder) body.sortOrder = parseInt(sortOrder);
+        if (thumbnailImageKey) body.thumbnailImageKey = thumbnailImageKey;
+
+        await apiPost('market-story-categories', body);
+
+        showToast('success', 'Story Category Created', `"${body.title}" has been created successfully.`);
+        e.target.reset();
+        clearFile('storyCat');
+        document.getElementById('storyCatActive').checked = true;
+        loadStoryCategories();
+      } catch (err) {
+        showToast('error', 'Creation Failed', err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    });
+
+    // ── 2. Create Story ──
+    document.getElementById('formStory').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnCreateStory');
+      setButtonLoading(btn, true);
+
+      try {
+        let imageKey = undefined;
+
+        const fileInput = document.getElementById('storyFile');
+        if (fileInput.files[0]) {
+          const uploadResult = await uploadFileToS3(fileInput.files[0], S3_FOLDERS.STORY_IMAGE);
+          imageKey = uploadResult.key;
+        }
+
+        const body = {
+          categoryId: document.getElementById('storyCategorySelect').value,
+          title: document.getElementById('storyTitle').value.trim(),
+          isActive: document.getElementById('storyActive').checked,
+        };
+
+        const desc = document.getElementById('storyDesc').value.trim();
+        if (desc) body.description = desc;
+
+        const sortOrder = document.getElementById('storySortOrder').value;
+        if (sortOrder) body.sortOrder = parseInt(sortOrder);
+        if (imageKey) body.imageKey = imageKey;
+
+        await apiPost('market-stories', body);
+
+        showToast('success', 'Story Created', `"${body.title}" has been created successfully.`);
+        e.target.reset();
+        clearFile('story');
+        document.getElementById('storyActive').checked = true;
+      } catch (err) {
+        showToast('error', 'Creation Failed', err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    });
+
+    // ── 3. Create Insight Category ──
+    document.getElementById('formInsightCategory').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnCreateInsightCategory');
+      setButtonLoading(btn, true);
+
+      try {
+        let thumbnailImageKey = undefined;
+
+        const fileInput = document.getElementById('insightCatFile');
+        if (fileInput.files[0]) {
+          const uploadResult = await uploadFileToS3(fileInput.files[0], S3_FOLDERS.INSIGHT_CATEGORY);
+          thumbnailImageKey = uploadResult.key;
+        }
+
+        const body = {
+          title: document.getElementById('insightCatTitle').value.trim(),
+          description: document.getElementById('insightCatDesc').value.trim(),
+          sortOrder: parseInt(document.getElementById('insightCatSortOrder').value),
+          isActive: document.getElementById('insightCatActive').checked,
+        };
+
+        if (thumbnailImageKey) body.thumbnailImageKey = thumbnailImageKey;
+
+        await apiPost('market-insight-categories', body);
+
+        showToast('success', 'Insight Category Created', `"${body.title}" has been created successfully.`);
+        e.target.reset();
+        clearFile('insightCat');
+        document.getElementById('insightCatActive').checked = true;
+        loadInsightCategories();
+      } catch (err) {
+        showToast('error', 'Creation Failed', err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    });
+
+    // ── 4. Create Market Insight (Inner Category) ──
+    document.getElementById('formInsight').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnCreateInsight');
+      setButtonLoading(btn, true);
+
+      try {
+        let thumbnailImageKey = undefined;
+
+        const fileInput = document.getElementById('insightFile');
+        if (fileInput.files[0]) {
+          const uploadResult = await uploadFileToS3(fileInput.files[0], S3_FOLDERS.INSIGHT);
+          thumbnailImageKey = uploadResult.key;
+        }
+
+        const body = {
+          categoryId: document.getElementById('insightCategorySelect').value,
+          title: document.getElementById('insightTitle').value.trim(),
+          sortOrder: parseInt(document.getElementById('insightSortOrder').value),
+          isActive: document.getElementById('insightActive').checked,
+        };
+
+        const desc = document.getElementById('insightDesc').value.trim();
+        if (desc) body.description = desc;
+        if (thumbnailImageKey) body.thumbnailImageKey = thumbnailImageKey;
+
+        await apiPost('market-insights', body);
+
+        showToast('success', 'Market Insight Created', `"${body.title}" has been created successfully.`);
+        e.target.reset();
+        clearFile('insight');
+        document.getElementById('insightActive').checked = true;
+        loadInsights();
+      } catch (err) {
+        showToast('error', 'Creation Failed', err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    });
+
+    // ── 5. Create Insight Item ──
+    document.getElementById('formInsightItem').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnCreateInsightItem');
+      setButtonLoading(btn, true);
+
+      try {
+        let imageKey = undefined;
+        let videoKey = undefined;
+
+        // Upload image if selected
+        const imageInput = document.getElementById('insightItemImageFile');
+        if (imageInput.files[0]) {
+          const uploadResult = await uploadFileToS3(imageInput.files[0], S3_FOLDERS.INSIGHT_ITEM);
+          imageKey = uploadResult.key;
+        }
+
+        // Upload video if selected
+        const videoInput = document.getElementById('insightItemVideoFile');
+        if (videoInput.files[0]) {
+          const uploadResult = await uploadFileToS3(videoInput.files[0], S3_FOLDERS.INSIGHT_ITEM);
+          videoKey = uploadResult.key;
+        }
+
+        const body = {
+          marketInsightId: document.getElementById('insightItemParentSelect').value,
+          title: document.getElementById('insightItemTitle').value.trim(),
+          description: document.getElementById('insightItemDesc').value.trim(),
+          creatorName: document.getElementById('insightItemCreator').value.trim(),
+          sortOrder: parseInt(document.getElementById('insightItemSortOrder').value),
+          isActive: document.getElementById('insightItemActive').checked,
+        };
+
+        if (imageKey) body.imageKey = imageKey;
+        if (videoKey) body.videoKey = videoKey;
+
+        await apiPost('market-insight-items', body);
+
+        showToast('success', 'Insight Item Created', `"${body.title}" has been created successfully.`);
+        e.target.reset();
+        clearFile('insightItemImage');
+        clearFile('insightItemVideo');
+        document.getElementById('insightItemActive').checked = true;
+      } catch (err) {
+        showToast('error', 'Creation Failed', err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    });
+
+    // ────────────────────── INITIAL LOAD ──────────────────────
+    // Data is loaded after successful login via showApp()
+    // No DOMContentLoaded auto-load needed — handled by auth flow above.
+  </script>
+</body>
+
+</html>
