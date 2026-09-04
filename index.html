@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mahir MIA — Story & Insight Uploader</title>
-  <meta name="description" content="Admin panel for uploading Market Stories and Market Insights to Mahir MIA backend">
+  <meta name="description" content="Admin panel for managing Market Stories and Market Insights in Mahir MIA backend">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
@@ -433,7 +433,7 @@
       position: relative;
       border: 2px dashed var(--border-color);
       border-radius: var(--radius-md);
-      padding: 28px;
+      padding: 24px;
       text-align: center;
       transition: var(--transition);
       cursor: pointer;
@@ -454,20 +454,20 @@
     }
 
     .file-upload-icon {
-      font-size: 32px;
-      margin-bottom: 8px;
+      font-size: 28px;
+      margin-bottom: 6px;
     }
 
     .file-upload-text {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-secondary);
       font-weight: 500;
     }
 
     .file-upload-hint {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
     .file-preview {
@@ -489,16 +489,16 @@
     .file-preview video {
       width: 100%;
       height: auto;
-      max-height: 200px;
+      max-height: 180px;
       object-fit: cover;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-color);
     }
 
     .file-preview .file-name {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-secondary);
-      margin-top: 6px;
+      margin-top: 4px;
       text-align: center;
       word-break: break-all;
     }
@@ -507,13 +507,13 @@
       position: absolute;
       top: 6px;
       right: 6px;
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       background: rgba(244, 63, 94, 0.9);
       border: none;
       border-radius: 50%;
       color: white;
-      font-size: 14px;
+      font-size: 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -529,23 +529,58 @@
 
     /* ───────────────────────── BUTTONS ───────────────────────── */
     .btn {
-      padding: 12px 28px;
+      padding: 11px 24px;
       border: none;
       border-radius: var(--radius-sm);
       font-family: inherit;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       white-space: nowrap;
     }
 
     .btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: rgba(13, 20, 36, 0.8);
+      color: var(--text-secondary);
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .btn-icon:hover {
+      border-color: var(--accent-indigo);
+      color: var(--accent-indigo);
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    .btn-icon.btn-danger:hover {
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
+      background: rgba(244, 63, 94, 0.15);
     }
 
     .btn-primary {
@@ -570,6 +605,17 @@
       transform: translateY(-1px);
     }
 
+    .btn-danger {
+      background: var(--gradient-danger);
+      color: white;
+      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      box-shadow: 0 6px 25px rgba(244, 63, 94, 0.45);
+      transform: translateY(-1px);
+    }
+
     .btn-outline {
       background: transparent;
       border: 1.5px solid var(--border-color);
@@ -585,7 +631,7 @@
     .form-actions {
       display: flex;
       gap: 12px;
-      margin-top: 28px;
+      margin-top: 24px;
       justify-content: flex-end;
     }
 
@@ -598,11 +644,11 @@
 
     .toggle {
       position: relative;
-      width: 48px;
-      height: 26px;
+      width: 44px;
+      height: 24px;
       appearance: none;
       background: var(--border-color);
-      border-radius: 13px;
+      border-radius: 12px;
       cursor: pointer;
       transition: var(--transition);
       outline: none;
@@ -615,8 +661,8 @@
       position: absolute;
       top: 3px;
       left: 3px;
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       background: white;
       border-radius: 50%;
       transition: var(--transition);
@@ -627,7 +673,7 @@
     }
 
     .toggle:checked::before {
-      transform: translateX(22px);
+      transform: translateX(20px);
     }
 
     .toggle-label {
@@ -756,9 +802,9 @@
 
     /* ───────────────────────── LOADING SPINNER ───────────────────────── */
     .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2.5px solid rgba(255, 255, 255, 0.25);
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
       border-top-color: white;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
@@ -772,27 +818,32 @@
 
     /* ───────────────────────── EXISTING ITEMS LIST ───────────────────────── */
     .existing-list {
-      margin-top: 20px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(42, 53, 80, 0.5);
     }
 
     .existing-list-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .existing-list-header h4 {
       font-size: 14px;
       font-weight: 600;
       color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .refresh-btn {
       background: transparent;
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: var(--radius-sm);
       font-size: 12px;
       font-weight: 500;
@@ -813,7 +864,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      max-height: 300px;
+      max-height: 380px;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -843,7 +894,7 @@
     }
 
     .list-item:hover {
-      border-color: rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.25);
       background: rgba(99, 102, 241, 0.04);
     }
 
@@ -867,6 +918,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: var(--text-primary);
     }
 
     .list-item-meta {
@@ -875,6 +927,7 @@
       display: flex;
       gap: 12px;
       margin-top: 2px;
+      align-items: center;
     }
 
     .list-item-id {
@@ -889,7 +942,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 180px;
+      max-width: 140px;
     }
 
     .list-item-id:hover {
@@ -903,16 +956,34 @@
       font-size: 11px;
       font-weight: 600;
       flex-shrink: 0;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .status-badge:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
     }
 
     .status-badge.active {
       background: rgba(16, 185, 129, 0.15);
       color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
     .status-badge.inactive {
       background: rgba(244, 63, 94, 0.15);
       color: var(--accent-rose);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .list-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+      flex-shrink: 0;
     }
 
     .empty-state {
@@ -926,6 +997,71 @@
       font-size: 32px;
       margin-bottom: 8px;
       opacity: 0.5;
+    }
+
+    /* ───────────────────────── MODAL OVERLAY ───────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(10, 14, 26, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     /* ───────────────────────── RESPONSIVE ───────────────────────── */
@@ -951,10 +1087,7 @@
         padding: 20px;
       }
 
-      .api-url-badge {
-        display: none;
-      }
-
+      .api-url-badge,
       .s3-badge {
         display: none;
       }
@@ -968,6 +1101,16 @@
         justify-content: center;
         padding: 10px 12px;
         font-size: 13px;
+      }
+
+      .list-item {
+        flex-wrap: wrap;
+      }
+
+      .list-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 8px;
       }
     }
   </style>
@@ -993,7 +1136,8 @@
   </header>
 
   <!-- ════════════════════════ LOGIN OVERLAY ════════════════════════ -->
-  <div id="loginOverlay" style="display:none; position:fixed; inset:0; z-index:9998; background:var(--bg-primary); display:flex; align-items:center; justify-content:center;">
+  <div id="loginOverlay"
+    style="display:none; position:fixed; inset:0; z-index:9998; background:var(--bg-primary); display:flex; align-items:center; justify-content:center;">
     <div style="width:100%; max-width:420px; padding:0 24px;">
       <div class="section-card" style="text-align:center;">
         <div style="margin-bottom:28px;">
@@ -1010,10 +1154,13 @@
             <label class="form-label">Password <span class="required">*</span></label>
             <input type="password" id="loginPassword" placeholder="••••••••" required>
           </div>
-          <button type="submit" class="btn btn-primary" id="btnLogin" style="width:100%;justify-content:center;padding:14px;">
+          <button type="submit" class="btn btn-primary" id="btnLogin"
+            style="width:100%;justify-content:center;padding:14px;">
             🔐 Sign In
           </button>
-          <div id="loginError" style="display:none;margin-top:14px;padding:10px 14px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);border-radius:8px;color:var(--accent-rose);font-size:13px;text-align:center;"></div>
+          <div id="loginError"
+            style="display:none;margin-top:14px;padding:10px 14px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);border-radius:8px;color:var(--accent-rose);font-size:13px;text-align:center;">
+          </div>
         </form>
       </div>
     </div>
@@ -1045,7 +1192,7 @@
         <div class="section-header">
           <div class="section-icon indigo">📂</div>
           <div>
-            <div class="section-title">Create Story Category</div>
+            <div class="section-title">Story Categories</div>
             <div class="section-subtitle">Top-level grouping for market stories</div>
           </div>
           <div class="s3-badge">S3: market-stories/thumbnails</div>
@@ -1107,8 +1254,8 @@
         <div class="section-header">
           <div class="section-icon violet">📰</div>
           <div>
-            <div class="section-title">Create Story</div>
-            <div class="section-subtitle">Individual story page within a category</div>
+            <div class="section-title">Market Stories</div>
+            <div class="section-subtitle">Individual story pages within a category</div>
           </div>
           <div class="s3-badge">S3: market-stories/images</div>
         </div>
@@ -1160,6 +1307,19 @@
             </button>
           </div>
         </form>
+
+        <!-- Existing Stories list -->
+        <div class="existing-list">
+          <div class="existing-list-header">
+            <h4>Existing Market Stories</h4>
+            <button class="refresh-btn" onclick="loadStories()">🔄 Refresh</button>
+          </div>
+          <div class="list-items" id="storiesList">
+            <div class="empty-state">
+              <div class="empty-icon">📰</div>Click Refresh to load
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1171,7 +1331,7 @@
         <div class="section-header">
           <div class="section-icon emerald">📁</div>
           <div>
-            <div class="section-title">Create Insight Category</div>
+            <div class="section-title">Insight Categories</div>
             <div class="section-subtitle">Top-level main category for market insights</div>
           </div>
           <div class="s3-badge">S3: market-insight-categories</div>
@@ -1236,7 +1396,7 @@
         <div class="section-header">
           <div class="section-icon amber">📋</div>
           <div>
-            <div class="section-title">Create Market Insight (Inner Category)</div>
+            <div class="section-title">Market Insights (Inner Category)</div>
             <div class="section-subtitle">Sub-group within a main insight category</div>
           </div>
           <div class="s3-badge">S3: market-insights</div>
@@ -1307,7 +1467,7 @@
         <div class="section-header">
           <div class="section-icon cyan">📝</div>
           <div>
-            <div class="section-title">Create Insight Item</div>
+            <div class="section-title">Insight Items</div>
             <div class="section-subtitle">Individual content piece with image/video support</div>
           </div>
           <div class="s3-badge">S3: market-insight-items</div>
@@ -1382,9 +1542,108 @@
             </button>
           </div>
         </form>
+
+        <!-- Existing Insight Items list -->
+        <div class="existing-list">
+          <div class="existing-list-header">
+            <h4>Existing Insight Items</h4>
+            <button class="refresh-btn" onclick="loadInsightItems()">🔄 Refresh</button>
+          </div>
+          <div class="list-items" id="insightItemsList">
+            <div class="empty-state">
+              <div class="empty-icon">📝</div>Click Refresh to load
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>
+
+  <!-- ════════════════════════ EDIT MODAL ════════════════════════ -->
+  <div class="modal-overlay" id="editModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="editModalTitle">✏️ Edit Content</div>
+        <button type="button" class="modal-close" onclick="closeEditModal()">✕</button>
+      </div>
+
+      <form id="editForm" class="form-grid">
+        <input type="hidden" id="editEntityType">
+        <input type="hidden" id="editEntityId">
+
+        <!-- Dynamic Parent Select -->
+        <div class="form-group full-width" id="editParentGroup" style="display: none;">
+          <label class="form-label" id="editParentLabel">Parent Category <span class="required">*</span></label>
+          <select id="editParentSelect"></select>
+        </div>
+
+        <div class="form-group full-width">
+          <label class="form-label">Title <span class="required">*</span></label>
+          <input type="text" id="editTitle" required>
+        </div>
+
+        <div class="form-group full-width" id="editDescGroup" style="display: none;">
+          <label class="form-label" id="editDescLabel">Description</label>
+          <textarea id="editDesc"></textarea>
+        </div>
+
+        <div class="form-group" id="editCreatorGroup" style="display: none;">
+          <label class="form-label">Creator Name <span class="required">*</span></label>
+          <input type="text" id="editCreator">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sort Order</label>
+          <input type="number" id="editSortOrder" min="1">
+        </div>
+
+        <div class="form-group full-width" id="editImageUploadGroup">
+          <label class="form-label" id="editImageLabel">Replace Image / Thumbnail <span
+              class="optional">(optional)</span></label>
+          <div class="file-upload-area" id="editImageFileArea">
+            <input type="file" id="editImageFile" accept="image/*">
+            <div class="file-upload-icon">🖼️</div>
+            <div class="file-upload-text">Drop new image or click to browse</div>
+            <div class="file-upload-hint">Max 10 MB</div>
+          </div>
+          <div class="file-preview" id="editImagePreview">
+            <button type="button" class="remove-file" onclick="clearFile('editImage')" title="Remove">✕</button>
+            <img id="editImagePreviewImg" src="" alt="Preview">
+            <div class="file-name" id="editImageFileName"></div>
+          </div>
+        </div>
+
+        <div class="form-group full-width" id="editVideoUploadGroup" style="display: none;">
+          <label class="form-label">Replace Video <span class="optional">(optional)</span></label>
+          <div class="file-upload-area" id="editVideoFileArea">
+            <input type="file" id="editVideoFile" accept="video/*">
+            <div class="file-upload-icon">🎬</div>
+            <div class="file-upload-text">Drop new video or click to browse</div>
+            <div class="file-upload-hint">Max 100 MB</div>
+          </div>
+          <div class="file-preview" id="editVideoPreview">
+            <button type="button" class="remove-file" onclick="clearFile('editVideo')" title="Remove">✕</button>
+            <video id="editVideoPreviewVid" src="" controls></video>
+            <div class="file-name" id="editVideoFileName"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="toggle-wrapper">
+            <input type="checkbox" class="toggle" id="editActive">
+            <span class="toggle-label">Active</span>
+          </div>
+        </div>
+
+        <div class="form-actions full-width">
+          <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveEdit">
+            💾 Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- ════════════════════════ TOAST CONTAINER ════════════════════════ -->
   <div class="toast-container" id="toastContainer"></div>
@@ -1403,6 +1662,15 @@
       INSIGHT_ITEM: 'market-insight-items',
     };
 
+    // Global cache for entity data
+    const entityStore = {
+      storyCategories: [],
+      stories: [],
+      insightCategories: [],
+      insights: [],
+      insightItems: []
+    };
+
     // ────────────────────── AUTH TOKEN MANAGEMENT ──────────────────────
     let AUTH_TOKEN = localStorage.getItem('mahir_admin_token') || '';
 
@@ -1414,9 +1682,7 @@
       document.getElementById('loginOverlay').style.display = 'none';
       document.getElementById('appContent').style.display = '';
       document.getElementById('mainContent').style.display = '';
-      loadStoryCategories();
-      loadInsightCategories();
-      loadInsights();
+      refreshAllData();
     }
 
     function showLogin() {
@@ -1476,7 +1742,6 @@
     (async function checkExistingToken() {
       if (!AUTH_TOKEN) { showLogin(); return; }
       try {
-        // Validate token by calling a simple GET
         const res = await fetch(`${API_BASE}/market-story-categories`, {
           headers: { 'Authorization': `Bearer ${AUTH_TOKEN}` },
         });
@@ -1526,7 +1791,6 @@
     });
 
     // ────────────────────── FILE PREVIEW HELPERS ──────────────────────
-    // Mapping of prefix -> { input, preview container, preview element, name element, type }
     const fileConfigs = {
       storyCat: { inputId: 'storyCatFile', previewId: 'storyCatPreview', imgId: 'storyCatPreviewImg', nameId: 'storyCatFileName', type: 'image' },
       story: { inputId: 'storyFile', previewId: 'storyPreview', imgId: 'storyPreviewImg', nameId: 'storyFileName', type: 'image' },
@@ -1534,11 +1798,13 @@
       insight: { inputId: 'insightFile', previewId: 'insightPreview', imgId: 'insightPreviewImg', nameId: 'insightFileName', type: 'image' },
       insightItemImage: { inputId: 'insightItemImageFile', previewId: 'insightItemImagePreview', imgId: 'insightItemImagePreviewImg', nameId: 'insightItemImageFileName', type: 'image' },
       insightItemVideo: { inputId: 'insightItemVideoFile', previewId: 'insightItemVideoPreview', imgId: 'insightItemVideoPreviewVid', nameId: 'insightItemVideoFileName', type: 'video' },
+      editImage: { inputId: 'editImageFile', previewId: 'editImagePreview', imgId: 'editImagePreviewImg', nameId: 'editImageFileName', type: 'image' },
+      editVideo: { inputId: 'editVideoFile', previewId: 'editVideoPreview', imgId: 'editVideoPreviewVid', nameId: 'editVideoFileName', type: 'video' }
     };
 
-    // Setup file previews
     Object.entries(fileConfigs).forEach(([prefix, cfg]) => {
       const input = document.getElementById(cfg.inputId);
+      if (!input) return;
       input.addEventListener('change', () => {
         const file = input.files[0];
         if (!file) return;
@@ -1552,7 +1818,6 @@
         preview.classList.add('active');
       });
 
-      // Drag-and-drop
       const area = input.closest('.file-upload-area');
       if (area) {
         area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
@@ -1574,9 +1839,9 @@
       const input = document.getElementById(cfg.inputId);
       const preview = document.getElementById(cfg.previewId);
       const media = document.getElementById(cfg.imgId);
-      input.value = '';
-      media.src = '';
-      preview.classList.remove('active');
+      if (input) input.value = '';
+      if (media) media.src = '';
+      if (preview) preview.classList.remove('active');
     }
 
     // ────────────────────── API HELPERS ──────────────────────
@@ -1618,9 +1883,39 @@
       return json.data !== undefined ? json.data : json;
     }
 
+    async function apiPatch(path, body) {
+      const options = {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      };
+      if (body !== undefined) options.body = JSON.stringify(body);
+
+      const res = await fetch(`${API_BASE}/${path}`, options);
+      handleAuthError(res);
+      const json = await res.json();
+      if (!res.ok) {
+        const msg = json.message || JSON.stringify(json);
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+      }
+      return json.data !== undefined ? json.data : json;
+    }
+
+    async function apiDelete(path) {
+      const res = await fetch(`${API_BASE}/${path}`, {
+        method: 'DELETE',
+        headers: { ...getAuthHeaders() },
+      });
+      handleAuthError(res);
+      const json = await res.json();
+      if (!res.ok) {
+        const msg = json.message || JSON.stringify(json);
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+      }
+      return json.data !== undefined ? json.data : json;
+    }
+
     /**
      * Upload file to S3 via POST /aws/upload
-     * Returns { key, url } from the backend
      */
     async function uploadFileToS3(file, folder) {
       const formData = new FormData();
@@ -1641,11 +1936,11 @@
       return json.data !== undefined ? json.data : json;
     }
 
-    function setButtonLoading(btn, loading) {
+    function setButtonLoading(btn, loading, text = 'Processing…') {
       if (loading) {
         btn.disabled = true;
         btn._origHTML = btn.innerHTML;
-        btn.innerHTML = `<span class="spinner"></span> Uploading…`;
+        btn.innerHTML = `<span class="spinner"></span> ${text}`;
       } else {
         btn.disabled = false;
         if (btn._origHTML) btn.innerHTML = btn._origHTML;
@@ -1658,14 +1953,29 @@
       });
     }
 
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+
+    // ────────────────────── REFRESH ALL DATA ──────────────────────
+    async function refreshAllData() {
+      await loadStoryCategories();
+      await loadStories();
+      await loadInsightCategories();
+      await loadInsights();
+      await loadInsightItems();
+    }
+
     // ────────────────────── LOAD EXISTING DATA ──────────────────────
     async function loadStoryCategories() {
       try {
         const categories = await apiGet('market-story-categories');
+        entityStore.storyCategories = categories;
         const container = document.getElementById('storyCategoriesList');
         const select = document.getElementById('storyCategorySelect');
 
-        // Update dropdown
         select.innerHTML = '<option value="">— Select a category —</option>';
         if (!categories.length) {
           container.innerHTML = '<div class="empty-state"><div class="empty-icon">📂</div>No categories yet</div>';
@@ -1674,7 +1984,6 @@
 
         container.innerHTML = '';
         categories.forEach(cat => {
-          // List item
           const div = document.createElement('div');
           div.className = 'list-item';
           div.innerHTML = `
@@ -1682,15 +1991,20 @@
             <div class="list-item-info">
               <div class="list-item-title">${escapeHtml(cat.title)}</div>
               <div class="list-item-meta">
-                <span>Order: ${cat.sortOrder}</span>
+                <span>Sort Order: ${cat.sortOrder || 1}</span>
               </div>
             </div>
             <span class="list-item-id" onclick="copyToClipboard('${cat.id}')" title="Click to copy">${cat.id}</span>
-            <span class="status-badge ${cat.isActive ? 'active' : 'inactive'}">${cat.isActive ? 'Active' : 'Inactive'}</span>
+            <span class="status-badge ${cat.isActive ? 'active' : 'inactive'}" onclick="toggleStatus('market-story-categories', '${cat.id}', loadStoryCategories)" title="Click to toggle status">
+              ${cat.isActive ? 'Active' : 'Inactive'}
+            </span>
+            <div class="list-item-actions">
+              <button class="btn-icon" onclick="openEditModal('storyCat', '${cat.id}')" title="Edit Category">✏️</button>
+              <button class="btn-icon btn-danger" onclick="deleteEntity('market-story-categories', '${cat.id}', '${escapeHtml(cat.title)}', loadStoryCategories)" title="Delete Category">🗑️</button>
+            </div>
           `;
           container.appendChild(div);
 
-          // Dropdown option
           const opt = document.createElement('option');
           opt.value = cat.id;
           opt.textContent = cat.title;
@@ -1701,9 +2015,51 @@
       }
     }
 
+    async function loadStories() {
+      try {
+        const stories = await apiGet('market-stories');
+        entityStore.stories = stories;
+        const container = document.getElementById('storiesList');
+
+        if (!stories.length) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">📰</div>No stories yet</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        stories.forEach(s => {
+          const catName = s.category ? s.category.title : 'No Category';
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            ${s.imageUrl ? `<img class="list-item-thumb" src="${s.imageUrl}" alt="">` : `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px">📰</div>`}
+            <div class="list-item-info">
+              <div class="list-item-title">${escapeHtml(s.title)}</div>
+              <div class="list-item-meta">
+                <span>Category: ${escapeHtml(catName)}</span>
+                <span>Sort: ${s.sortOrder || 1}</span>
+              </div>
+            </div>
+            <span class="list-item-id" onclick="copyToClipboard('${s.id}')" title="Click to copy">${s.id}</span>
+            <span class="status-badge ${s.isActive ? 'active' : 'inactive'}" onclick="toggleStatus('market-stories', '${s.id}', loadStories)" title="Click to toggle status">
+              ${s.isActive ? 'Active' : 'Inactive'}
+            </span>
+            <div class="list-item-actions">
+              <button class="btn-icon" onclick="openEditModal('story', '${s.id}')" title="Edit Story">✏️</button>
+              <button class="btn-icon btn-danger" onclick="deleteEntity('market-stories', '${s.id}', '${escapeHtml(s.title)}', loadStories)" title="Delete Story">🗑️</button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        showToast('error', 'Load Failed', err.message);
+      }
+    }
+
     async function loadInsightCategories() {
       try {
         const categories = await apiGet('market-insight-categories');
+        entityStore.insightCategories = categories;
         const container = document.getElementById('insightCategoriesList');
         const select = document.getElementById('insightCategorySelect');
 
@@ -1723,11 +2079,17 @@
               <div class="list-item-title">${escapeHtml(cat.title)}</div>
               <div class="list-item-meta">
                 <span>Order: ${cat.sortOrder}</span>
-                <span>${escapeHtml(cat.description || '').substring(0, 50)}</span>
+                <span>${escapeHtml(cat.description || '').substring(0, 40)}</span>
               </div>
             </div>
             <span class="list-item-id" onclick="copyToClipboard('${cat.id}')" title="Click to copy">${cat.id}</span>
-            <span class="status-badge ${cat.isActive ? 'active' : 'inactive'}">${cat.isActive ? 'Active' : 'Inactive'}</span>
+            <span class="status-badge ${cat.isActive ? 'active' : 'inactive'}" onclick="toggleStatus('market-insight-categories', '${cat.id}', loadInsightCategories)" title="Click to toggle status">
+              ${cat.isActive ? 'Active' : 'Inactive'}
+            </span>
+            <div class="list-item-actions">
+              <button class="btn-icon" onclick="openEditModal('insightCat', '${cat.id}')" title="Edit Category">✏️</button>
+              <button class="btn-icon btn-danger" onclick="deleteEntity('market-insight-categories', '${cat.id}', '${escapeHtml(cat.title)}', loadInsightCategories)" title="Delete Category">🗑️</button>
+            </div>
           `;
           container.appendChild(div);
 
@@ -1744,6 +2106,7 @@
     async function loadInsights() {
       try {
         const insights = await apiGet('market-insights');
+        entityStore.insights = insights;
         const container = document.getElementById('insightsList');
         const select = document.getElementById('insightItemParentSelect');
 
@@ -1766,7 +2129,13 @@
               </div>
             </div>
             <span class="list-item-id" onclick="copyToClipboard('${ins.id}')" title="Click to copy">${ins.id}</span>
-            <span class="status-badge ${ins.isActive ? 'active' : 'inactive'}">${ins.isActive ? 'Active' : 'Inactive'}</span>
+            <span class="status-badge ${ins.isActive ? 'active' : 'inactive'}" onclick="toggleStatus('market-insights', '${ins.id}', loadInsights)" title="Click to toggle status">
+              ${ins.isActive ? 'Active' : 'Inactive'}
+            </span>
+            <div class="list-item-actions">
+              <button class="btn-icon" onclick="openEditModal('insight', '${ins.id}')" title="Edit Insight">✏️</button>
+              <button class="btn-icon btn-danger" onclick="deleteEntity('market-insights', '${ins.id}', '${escapeHtml(ins.title)}', loadInsights)" title="Delete Insight">🗑️</button>
+            </div>
           `;
           container.appendChild(div);
 
@@ -1780,13 +2149,300 @@
       }
     }
 
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text || '';
-      return div.innerHTML;
+    async function loadInsightItems() {
+      try {
+        const items = await apiGet('market-insight-items');
+        entityStore.insightItems = items;
+        const container = document.getElementById('insightItemsList');
+
+        if (!items.length) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div>No insight items yet</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        items.forEach(item => {
+          const mediaThumb = item.imageUrl ? `<img class="list-item-thumb" src="${item.imageUrl}" alt="">` :
+            item.videoUrl ? `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px">🎬</div>` :
+              `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px">📝</div>`;
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            ${mediaThumb}
+            <div class="list-item-info">
+              <div class="list-item-title">${escapeHtml(item.title)}</div>
+              <div class="list-item-meta">
+                <span>By: ${escapeHtml(item.creatorName || 'N/A')}</span>
+                <span>Sort: ${item.sortOrder || 1}</span>
+              </div>
+            </div>
+            <span class="list-item-id" onclick="copyToClipboard('${item.id}')" title="Click to copy">${item.id}</span>
+            <span class="status-badge ${item.isActive ? 'active' : 'inactive'}" onclick="toggleStatus('market-insight-items', '${item.id}', loadInsightItems)" title="Click to toggle status">
+              ${item.isActive ? 'Active' : 'Inactive'}
+            </span>
+            <div class="list-item-actions">
+              <button class="btn-icon" onclick="openEditModal('insightItem', '${item.id}')" title="Edit Item">✏️</button>
+              <button class="btn-icon btn-danger" onclick="deleteEntity('market-insight-items', '${item.id}', '${escapeHtml(item.title)}', loadInsightItems)" title="Delete Item">🗑️</button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        showToast('error', 'Load Failed', err.message);
+      }
     }
 
-    // ────────────────────── FORM SUBMISSIONS ──────────────────────
+    // ────────────────────── TOGGLE ACTIVE & DELETE ACTIONS ──────────────────────
+    async function toggleStatus(endpoint, id, reloadFn) {
+      try {
+        await apiPatch(`${endpoint}/toggle-active/${id}`);
+        showToast('success', 'Status Updated', 'Active status has been toggled.');
+        if (reloadFn) reloadFn();
+      } catch (err) {
+        showToast('error', 'Update Failed', err.message);
+      }
+    }
+
+    async function deleteEntity(endpoint, id, title, reloadFn) {
+      if (!confirm(`Are you sure you want to delete "${title}"?\n\nThis action cannot be undone.`)) {
+        return;
+      }
+      try {
+        await apiDelete(`${endpoint}/${id}`);
+        showToast('success', 'Deleted Successfully', `"${title}" has been removed.`);
+        if (reloadFn) reloadFn();
+        // Also refresh dependent dropdowns
+        if (endpoint === 'market-story-categories') loadStoryCategories();
+        if (endpoint === 'market-insight-categories') loadInsightCategories();
+        if (endpoint === 'market-insights') loadInsights();
+      } catch (err) {
+        showToast('error', 'Delete Failed', err.message);
+      }
+    }
+
+    // ────────────────────── EDIT MODAL CONTROLLER ──────────────────────
+    function openEditModal(type, id) {
+      document.getElementById('editEntityType').value = type;
+      document.getElementById('editEntityId').value = id;
+
+      // Hide all dynamic fields by default
+      const parentGroup = document.getElementById('editParentGroup');
+      const descGroup = document.getElementById('editDescGroup');
+      const creatorGroup = document.getElementById('editCreatorGroup');
+      const imageGroup = document.getElementById('editImageUploadGroup');
+      const videoGroup = document.getElementById('editVideoUploadGroup');
+      const titleEl = document.getElementById('editModalTitle');
+
+      parentGroup.style.display = 'none';
+      descGroup.style.display = 'none';
+      creatorGroup.style.display = 'none';
+      imageGroup.style.display = 'none';
+      videoGroup.style.display = 'none';
+
+      clearFile('editImage');
+      clearFile('editVideo');
+
+      const parentSelect = document.getElementById('editParentSelect');
+      parentSelect.innerHTML = '';
+
+      if (type === 'storyCat') {
+        const item = entityStore.storyCategories.find(c => c.id === id);
+        if (!item) return;
+        titleEl.innerHTML = '✏️ Edit Story Category';
+        document.getElementById('editTitle').value = item.title || '';
+        document.getElementById('editSortOrder').value = item.sortOrder || 1;
+        document.getElementById('editActive').checked = item.isActive !== false;
+        imageGroup.style.display = 'block';
+        document.getElementById('editImageLabel').innerHTML = 'Replace Thumbnail Image <span class="optional">(optional)</span>';
+
+      } else if (type === 'story') {
+        const item = entityStore.stories.find(s => s.id === id);
+        if (!item) return;
+        titleEl.innerHTML = '✏️ Edit Market Story';
+        parentGroup.style.display = 'block';
+        document.getElementById('editParentLabel').innerHTML = 'Category <span class="required">*</span>';
+        entityStore.storyCategories.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.title;
+          if (cat.id === (item.categoryId || (item.category ? item.category.id : ''))) opt.selected = true;
+          parentSelect.appendChild(opt);
+        });
+
+        document.getElementById('editTitle').value = item.title || '';
+        descGroup.style.display = 'block';
+        document.getElementById('editDesc').value = item.description || '';
+        document.getElementById('editSortOrder').value = item.sortOrder || 1;
+        document.getElementById('editActive').checked = item.isActive !== false;
+        imageGroup.style.display = 'block';
+        document.getElementById('editImageLabel').innerHTML = 'Replace Story Image <span class="optional">(optional)</span>';
+
+      } else if (type === 'insightCat') {
+        const item = entityStore.insightCategories.find(c => c.id === id);
+        if (!item) return;
+        titleEl.innerHTML = '✏️ Edit Insight Category';
+        document.getElementById('editTitle').value = item.title || '';
+        descGroup.style.display = 'block';
+        document.getElementById('editDesc').value = item.description || '';
+        document.getElementById('editSortOrder').value = item.sortOrder || 1;
+        document.getElementById('editActive').checked = item.isActive !== false;
+        imageGroup.style.display = 'block';
+        document.getElementById('editImageLabel').innerHTML = 'Replace Thumbnail Image <span class="optional">(optional)</span>';
+
+      } else if (type === 'insight') {
+        const item = entityStore.insights.find(i => i.id === id);
+        if (!item) return;
+        titleEl.innerHTML = '✏️ Edit Market Insight';
+        parentGroup.style.display = 'block';
+        document.getElementById('editParentLabel').innerHTML = 'Parent Category <span class="required">*</span>';
+        entityStore.insightCategories.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.title;
+          if (cat.id === item.categoryId) opt.selected = true;
+          parentSelect.appendChild(opt);
+        });
+
+        document.getElementById('editTitle').value = item.title || '';
+        descGroup.style.display = 'block';
+        document.getElementById('editDesc').value = item.description || '';
+        document.getElementById('editSortOrder').value = item.sortOrder || 1;
+        document.getElementById('editActive').checked = item.isActive !== false;
+        imageGroup.style.display = 'block';
+        document.getElementById('editImageLabel').innerHTML = 'Replace Thumbnail Image <span class="optional">(optional)</span>';
+
+      } else if (type === 'insightItem') {
+        const item = entityStore.insightItems.find(i => i.id === id);
+        if (!item) return;
+        titleEl.innerHTML = '✏️ Edit Insight Item';
+        parentGroup.style.display = 'block';
+        document.getElementById('editParentLabel').innerHTML = 'Parent Market Insight <span class="required">*</span>';
+        entityStore.insights.forEach(ins => {
+          const opt = document.createElement('option');
+          opt.value = ins.id;
+          opt.textContent = ins.title;
+          if (ins.id === item.marketInsightId) opt.selected = true;
+          parentSelect.appendChild(opt);
+        });
+
+        document.getElementById('editTitle').value = item.title || '';
+        descGroup.style.display = 'block';
+        document.getElementById('editDesc').value = item.description || '';
+        creatorGroup.style.display = 'block';
+        document.getElementById('editCreator').value = item.creatorName || '';
+        document.getElementById('editSortOrder').value = item.sortOrder || 1;
+        document.getElementById('editActive').checked = item.isActive !== false;
+        imageGroup.style.display = 'block';
+        videoGroup.style.display = 'block';
+        document.getElementById('editImageLabel').innerHTML = 'Replace Image <span class="optional">(optional)</span>';
+      }
+
+      document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').style.display = 'none';
+      document.getElementById('editForm').reset();
+      clearFile('editImage');
+      clearFile('editVideo');
+    }
+
+    // Save Edit Form Handler
+    document.getElementById('editForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const type = document.getElementById('editEntityType').value;
+      const id = document.getElementById('editEntityId').value;
+      const btn = document.getElementById('btnSaveEdit');
+      setButtonLoading(btn, true, 'Saving…');
+
+      try {
+        const body = {
+          title: document.getElementById('editTitle').value.trim(),
+          isActive: document.getElementById('editActive').checked,
+        };
+
+        const sortOrder = document.getElementById('editSortOrder').value;
+        if (sortOrder) body.sortOrder = parseInt(sortOrder);
+
+        const desc = document.getElementById('editDesc').value.trim();
+        if (desc) body.description = desc;
+
+        let endpoint = '';
+        let reloadFn = null;
+
+        if (type === 'storyCat') {
+          endpoint = `market-story-categories/${id}`;
+          reloadFn = loadStoryCategories;
+
+          const imageInput = document.getElementById('editImageFile');
+          if (imageInput.files[0]) {
+            const upload = await uploadFileToS3(imageInput.files[0], S3_FOLDERS.STORY_CATEGORY_THUMBNAIL);
+            body.thumbnailImageKey = upload.key;
+          }
+
+        } else if (type === 'story') {
+          endpoint = `market-stories/${id}`;
+          reloadFn = loadStories;
+          body.categoryId = document.getElementById('editParentSelect').value;
+
+          const imageInput = document.getElementById('editImageFile');
+          if (imageInput.files[0]) {
+            const upload = await uploadFileToS3(imageInput.files[0], S3_FOLDERS.STORY_IMAGE);
+            body.imageKey = upload.key;
+          }
+
+        } else if (type === 'insightCat') {
+          endpoint = `market-insight-categories/${id}`;
+          reloadFn = loadInsightCategories;
+
+          const imageInput = document.getElementById('editImageFile');
+          if (imageInput.files[0]) {
+            const upload = await uploadFileToS3(imageInput.files[0], S3_FOLDERS.INSIGHT_CATEGORY);
+            body.thumbnailImageKey = upload.key;
+          }
+
+        } else if (type === 'insight') {
+          endpoint = `market-insights/${id}`;
+          reloadFn = loadInsights;
+          body.categoryId = document.getElementById('editParentSelect').value;
+
+          const imageInput = document.getElementById('editImageFile');
+          if (imageInput.files[0]) {
+            const upload = await uploadFileToS3(imageInput.files[0], S3_FOLDERS.INSIGHT);
+            body.thumbnailImageKey = upload.key;
+          }
+
+        } else if (type === 'insightItem') {
+          endpoint = `market-insight-items/${id}`;
+          reloadFn = loadInsightItems;
+          body.marketInsightId = document.getElementById('editParentSelect').value;
+          body.creatorName = document.getElementById('editCreator').value.trim();
+
+          const imageInput = document.getElementById('editImageFile');
+          if (imageInput.files[0]) {
+            const upload = await uploadFileToS3(imageInput.files[0], S3_FOLDERS.INSIGHT_ITEM);
+            body.imageKey = upload.key;
+          }
+
+          const videoInput = document.getElementById('editVideoFile');
+          if (videoInput.files[0]) {
+            const upload = await uploadFileToS3(videoInput.files[0], S3_FOLDERS.INSIGHT_ITEM);
+            body.videoKey = upload.key;
+          }
+        }
+
+        await apiPatch(endpoint, body);
+        showToast('success', 'Changes Saved', `"${body.title}" has been updated successfully.`);
+        closeEditModal();
+        if (reloadFn) reloadFn();
+      } catch (err) {
+        showToast('error', 'Update Failed', err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    });
+
+    // ────────────────────── CREATE FORM SUBMISSIONS ──────────────────────
 
     // ── 1. Create Story Category ──
     document.getElementById('formStoryCategory').addEventListener('submit', async (e) => {
@@ -1797,7 +2453,6 @@
       try {
         let thumbnailImageKey = undefined;
 
-        // Upload thumbnail to S3 if selected
         const fileInput = document.getElementById('storyCatFile');
         if (fileInput.files[0]) {
           const uploadResult = await uploadFileToS3(fileInput.files[0], S3_FOLDERS.STORY_CATEGORY_THUMBNAIL);
@@ -1861,6 +2516,7 @@
         e.target.reset();
         clearFile('story');
         document.getElementById('storyActive').checked = true;
+        loadStories();
       } catch (err) {
         showToast('error', 'Creation Failed', err.message);
       } finally {
@@ -1956,14 +2612,12 @@
         let imageKey = undefined;
         let videoKey = undefined;
 
-        // Upload image if selected
         const imageInput = document.getElementById('insightItemImageFile');
         if (imageInput.files[0]) {
           const uploadResult = await uploadFileToS3(imageInput.files[0], S3_FOLDERS.INSIGHT_ITEM);
           imageKey = uploadResult.key;
         }
 
-        // Upload video if selected
         const videoInput = document.getElementById('insightItemVideoFile');
         if (videoInput.files[0]) {
           const uploadResult = await uploadFileToS3(videoInput.files[0], S3_FOLDERS.INSIGHT_ITEM);
@@ -1989,16 +2643,13 @@
         clearFile('insightItemImage');
         clearFile('insightItemVideo');
         document.getElementById('insightItemActive').checked = true;
+        loadInsightItems();
       } catch (err) {
         showToast('error', 'Creation Failed', err.message);
       } finally {
         setButtonLoading(btn, false);
       }
     });
-
-    // ────────────────────── INITIAL LOAD ──────────────────────
-    // Data is loaded after successful login via showApp()
-    // No DOMContentLoaded auto-load needed — handled by auth flow above.
   </script>
 </body>
 
