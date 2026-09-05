@@ -1064,6 +1064,132 @@
       background: rgba(255, 255, 255, 0.1);
     }
 
+    /* ───────────────────────── BANNER MULTI-IMAGE UPLOAD ───────────────────────── */
+    .banner-images-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .banner-image-slot {
+      position: relative;
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: rgba(13, 20, 36, 0.5);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .banner-image-slot:hover {
+      border-color: var(--accent-indigo);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .banner-image-slot.filled {
+      border-style: solid;
+      border-color: rgba(99, 102, 241, 0.3);
+      cursor: default;
+    }
+
+    .banner-image-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: calc(var(--radius-md) - 2px);
+    }
+
+    .banner-image-slot .slot-add-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    .banner-image-slot .slot-add-btn .slot-icon {
+      font-size: 24px;
+      transition: var(--transition);
+    }
+
+    .banner-image-slot:hover .slot-add-btn {
+      color: var(--accent-indigo);
+    }
+
+    .banner-image-slot input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .banner-image-slot .slot-remove {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 26px;
+      height: 26px;
+      background: rgba(244, 63, 94, 0.9);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+
+    .banner-image-slot .slot-remove:hover {
+      background: var(--accent-rose);
+      transform: scale(1.1);
+    }
+
+    .banner-image-slot .slot-order {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+    }
+
+    .banner-images-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .banner-images-info span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .banner-images-info .image-count {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      color: var(--accent-indigo);
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
     /* ───────────────────────── RESPONSIVE ───────────────────────── */
     @media (max-width: 768px) {
       .header {
@@ -1111,6 +1237,10 @@
         width: 100%;
         justify-content: flex-end;
         margin-top: 8px;
+      }
+
+      .banner-images-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       }
     }
   </style>
@@ -1174,6 +1304,9 @@
       </button>
       <button class="tab-btn" data-tab="insights" id="tab-insights">
         <span class="tab-icon">📊</span> Market Insights
+      </button>
+      <button class="tab-btn" data-tab="banners" id="tab-banners">
+        <span class="tab-icon">🖼️</span> Banners
       </button>
       <button class="btn btn-outline" onclick="logout()" style="margin-left:auto;padding:8px 16px;font-size:12px;">
         🚪 Logout
@@ -1557,6 +1690,84 @@
         </div>
       </div>
     </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━ BANNERS TAB ━━━━━━━━━━━━━━━━━━━ -->
+    <div class="tab-panel" id="panel-banners">
+
+      <!-- ─── Create Banner ─── -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon" style="background:rgba(251,191,36,0.15);color:#f59e0b;">🖼️</div>
+          <div>
+            <div class="section-title">Banners</div>
+            <div class="section-subtitle">Promotional banners — each banner has one image or video asset</div>
+          </div>
+          <div class="s3-badge">S3: banners</div>
+        </div>
+
+        <form id="formBanner" class="form-grid">
+
+          <div class="form-group">
+            <label class="form-label">Title <span class="optional">(optional)</span></label>
+            <input type="text" id="bannerTitle" placeholder="e.g. Summer Offer Banner" maxlength="150">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Sort Number <span class="required">*</span></label>
+            <input type="number" id="bannerSortNumber" placeholder="1" min="1" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label class="form-label">Description <span class="optional">(optional)</span></label>
+            <textarea id="bannerDesc" placeholder="Short description of this banner..."></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label class="form-label">Banner Asset (Image or Video) <span class="required">*</span></label>
+            <div class="file-upload-area" id="bannerFileArea">
+              <input type="file" id="bannerFile" accept="image/*,video/*">
+              <div class="file-upload-icon">🖼️</div>
+              <div class="file-upload-text">Drop an image or video, or click to browse</div>
+              <div class="file-upload-hint">Image: max 10 MB · JPG, PNG, WebP &nbsp;|&nbsp; Video: max 100 MB</div>
+            </div>
+            <div class="file-preview" id="bannerPreview">
+              <button type="button" class="remove-file" onclick="clearBannerFile()" title="Remove">✕</button>
+              <img id="bannerPreviewImg" src="" alt="Preview" style="display:none;">
+              <video id="bannerPreviewVid" src="" controls style="display:none;max-height:180px;"></video>
+              <div class="file-name" id="bannerFileName"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="toggle-wrapper">
+              <input type="checkbox" class="toggle" id="bannerActive" checked>
+              <span class="toggle-label">Active</span>
+            </div>
+          </div>
+
+          <div class="form-actions full-width">
+            <button type="reset" class="btn btn-outline" onclick="clearBannerFile()">Reset</button>
+            <button type="submit" class="btn btn-primary" id="btnCreateBanner">
+              🖼️ Create Banner
+            </button>
+          </div>
+        </form>
+
+        <!-- Existing Banners List -->
+        <div class="existing-list">
+          <div class="existing-list-header">
+            <h4>Existing Banners</h4>
+            <button class="refresh-btn" onclick="loadBanners()">🔄 Refresh</button>
+          </div>
+          <div class="list-items" id="bannersList">
+            <div class="empty-state">
+              <div class="empty-icon">🖼️</div>Click Refresh to load
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <!-- ════════════════════════ EDIT MODAL ════════════════════════ -->
@@ -1628,6 +1839,30 @@
           </div>
         </div>
 
+        <!-- Banner asset group (only shown when editing a banner) -->
+        <div class="form-group full-width" id="editBannerImagesGroup" style="display: none;">
+          <label class="form-label">Sort Number <span class="required">*</span></label>
+          <input type="number" id="editBannerSortNumber" min="1" placeholder="1">
+        </div>
+
+        <div class="form-group full-width" id="editBannerAssetGroup" style="display: none;">
+          <label class="form-label">Replace Asset (Image or Video) <span class="optional">(optional — leave empty to
+              keep current)</span></label>
+          <div class="file-upload-area" id="editBannerFileArea">
+            <input type="file" id="editBannerFile" accept="image/*,video/*">
+            <div class="file-upload-icon">🖼️</div>
+            <div class="file-upload-text">Drop new image or video, or click to browse</div>
+            <div class="file-upload-hint">Image: max 10 MB · JPG, PNG, WebP &nbsp;|&nbsp; Video: max 100 MB</div>
+          </div>
+          <div class="file-preview" id="editBannerPreview">
+            <button type="button" class="remove-file" onclick="clearBannerFile('editBannerPreview','editBannerFile')"
+              title="Remove">✕</button>
+            <img id="editBannerPreviewImg" src="" alt="Preview" style="display:none;">
+            <video id="editBannerPreviewVid" src="" controls style="display:none;max-height:180px;"></video>
+            <div class="file-name" id="editBannerFileName"></div>
+          </div>
+        </div>
+
         <div class="form-group">
           <div class="toggle-wrapper">
             <input type="checkbox" class="toggle" id="editActive">
@@ -1660,6 +1895,7 @@
       INSIGHT_CATEGORY: 'market-insight-categories',
       INSIGHT: 'market-insights',
       INSIGHT_ITEM: 'market-insight-items',
+      BANNER: 'banners',
     };
 
     // Global cache for entity data
@@ -1668,8 +1904,150 @@
       stories: [],
       insightCategories: [],
       insights: [],
-      insightItems: []
+      insightItems: [],
+      banners: []
     };
+
+    // ────────────────────── BANNER MULTI-IMAGE STATE ──────────────────────
+    // Each entry: { file: File|null, previewUrl: string, existingKey: string|null }
+    let bannerImageSlots = [];
+    const BANNER_MAX_IMAGES = 10;
+
+    function renderBannerSlots(gridId = 'bannerImagesGrid', slots = bannerImageSlots, maxImages = BANNER_MAX_IMAGES, onRemove = removeBannerSlot, onAdd = addBannerSlotFile) {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      slots.forEach((slot, index) => {
+        const div = document.createElement('div');
+        div.className = 'banner-image-slot filled';
+        div.innerHTML = `
+          <img src="${slot.previewUrl}" alt="Banner image ${index + 1}">
+          <span class="slot-order">#${index + 1}</span>
+          <button type="button" class="slot-remove" onclick="${onRemove.name}(${index}, '${gridId}')" title="Remove">✕</button>
+        `;
+        grid.appendChild(div);
+      });
+
+      // Add "add" slot if below max
+      if (slots.length < maxImages) {
+        const addDiv = document.createElement('div');
+        addDiv.className = 'banner-image-slot';
+        const inputId = `bannerSlotInput_${gridId}_${slots.length}`;
+        addDiv.innerHTML = `
+          <input type="file" id="${inputId}" accept="image/*" onchange="${onAdd.name}(this, '${gridId}')">
+          <div class="slot-add-btn">
+            <span class="slot-icon">➕</span>
+            <span>Add Image</span>
+          </div>
+        `;
+        // drag support
+        addDiv.addEventListener('dragover', e => { e.preventDefault(); addDiv.classList.add('dragover'); });
+        addDiv.addEventListener('dragleave', () => addDiv.classList.remove('dragover'));
+        addDiv.addEventListener('drop', e => {
+          e.preventDefault();
+          addDiv.classList.remove('dragover');
+          const file = e.dataTransfer.files[0];
+          if (file && file.type.startsWith('image/')) {
+            const fakeInput = { files: [file], closest: () => null };
+            onAdd(fakeInput, gridId);
+          }
+        });
+        grid.appendChild(addDiv);
+      }
+
+      // Update count badge
+      const countEl = gridId === 'bannerImagesGrid' ? document.getElementById('bannerImageCount') : document.getElementById('editBannerImageCount');
+      if (countEl) countEl.textContent = `${slots.length} / ${maxImages}`;
+    }
+
+    // ────────────────────── BANNER SINGLE-FILE PREVIEW ──────────────────────
+    function clearBannerFile(previewId = 'bannerPreview', inputId = 'bannerFile') {
+      const input = document.getElementById(inputId);
+      const preview = document.getElementById(previewId);
+      const img = document.getElementById(previewId === 'bannerPreview' ? 'bannerPreviewImg' : 'editBannerPreviewImg');
+      const vid = document.getElementById(previewId === 'bannerPreview' ? 'bannerPreviewVid' : 'editBannerPreviewVid');
+      const name = document.getElementById(previewId === 'bannerPreview' ? 'bannerFileName' : 'editBannerFileName');
+      if (input) input.value = '';
+      if (img) { img.src = ''; img.style.display = 'none'; }
+      if (vid) { vid.src = ''; vid.style.display = 'none'; }
+      if (name) name.textContent = '';
+      if (preview) preview.classList.remove('active');
+    }
+
+    function wireBannerFileInput(inputId, previewId, imgId, vidId, nameId, areaId) {
+      const input = document.getElementById(inputId);
+      const area = document.getElementById(areaId);
+      if (!input) return;
+
+      function handleFile(file) {
+        if (!file) return;
+        const isVideo = file.type.startsWith('video/');
+        const url = URL.createObjectURL(file);
+        const img = document.getElementById(imgId);
+        const vid = document.getElementById(vidId);
+        const name = document.getElementById(nameId);
+        const preview = document.getElementById(previewId);
+        if (img) { img.src = isVideo ? '' : url; img.style.display = isVideo ? 'none' : 'block'; }
+        if (vid) { vid.src = isVideo ? url : ''; vid.style.display = isVideo ? 'block' : 'none'; }
+        if (name) name.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        if (preview) preview.classList.add('active');
+      }
+
+      input.addEventListener('change', () => handleFile(input.files[0]));
+
+      if (area) {
+        area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
+        area.addEventListener('dragleave', () => area.classList.remove('dragover'));
+        area.addEventListener('drop', e => {
+          e.preventDefault();
+          area.classList.remove('dragover');
+          const file = e.dataTransfer.files[0];
+          if (file) {
+            // DataTransfer trick to set input.files
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            handleFile(file);
+          }
+        });
+      }
+    }
+
+    // Wire banner file inputs
+    wireBannerFileInput('bannerFile', 'bannerPreview', 'bannerPreviewImg', 'bannerPreviewVid', 'bannerFileName', 'bannerFileArea');
+    wireBannerFileInput('editBannerFile', 'editBannerPreview', 'editBannerPreviewImg', 'editBannerPreviewVid', 'editBannerFileName', 'editBannerFileArea');
+
+    // ────────────────────── MULTIPART API HELPER ──────────────────────
+    async function apiPostFormData(path, formData) {
+      const res = await fetch(`${API_BASE}/${path}`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders() },
+        body: formData,
+      });
+      handleAuthError(res);
+      const json = await res.json();
+      if (!res.ok) {
+        const msg = json.message || JSON.stringify(json);
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+      }
+      return json.data !== undefined ? json.data : json;
+    }
+
+    async function apiPatchFormData(path, formData) {
+      const res = await fetch(`${API_BASE}/${path}`, {
+        method: 'PATCH',
+        headers: { ...getAuthHeaders() },
+        body: formData,
+      });
+      handleAuthError(res);
+      const json = await res.json();
+      if (!res.ok) {
+        const msg = json.message || JSON.stringify(json);
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : msg);
+      }
+      return json.data !== undefined ? json.data : json;
+    }
 
     // ────────────────────── AUTH TOKEN MANAGEMENT ──────────────────────
     let AUTH_TOKEN = localStorage.getItem('mahir_admin_token') || '';
@@ -1966,6 +2344,7 @@
       await loadInsightCategories();
       await loadInsights();
       await loadInsightItems();
+      await loadBanners();
     }
 
     // ────────────────────── LOAD EXISTING DATA ──────────────────────
@@ -2231,6 +2610,7 @@
       const creatorGroup = document.getElementById('editCreatorGroup');
       const imageGroup = document.getElementById('editImageUploadGroup');
       const videoGroup = document.getElementById('editVideoUploadGroup');
+      const bannerImgGroup = document.getElementById('editBannerImagesGroup');
       const titleEl = document.getElementById('editModalTitle');
 
       parentGroup.style.display = 'none';
@@ -2238,6 +2618,7 @@
       creatorGroup.style.display = 'none';
       imageGroup.style.display = 'none';
       videoGroup.style.display = 'none';
+      bannerImgGroup.style.display = 'none';
 
       clearFile('editImage');
       clearFile('editVideo');
@@ -2335,6 +2716,21 @@
         imageGroup.style.display = 'block';
         videoGroup.style.display = 'block';
         document.getElementById('editImageLabel').innerHTML = 'Replace Image <span class="optional">(optional)</span>';
+      } else if (type === 'banner') {
+        const item = entityStore.banners.find(b => b.id === id);
+        if (!item) return;
+        titleEl.innerHTML = '✏️ Edit Banner';
+        // For banner, title is optional — reuse editTitle but not required
+        document.getElementById('editTitle').value = item.title || '';
+        document.getElementById('editTitle').required = false;
+        descGroup.style.display = 'block';
+        document.getElementById('editDesc').value = item.description || '';
+        document.getElementById('editSortOrder').style.display = 'none'; // hide the generic sortOrder field
+        document.getElementById('editActive').checked = item.isActive !== false;
+        bannerImgGroup.style.display = 'block';
+        document.getElementById('editBannerSortNumber').value = item.sortNumber || 1;
+        document.getElementById('editBannerAssetGroup').style.display = 'block';
+        clearBannerFile('editBannerPreview', 'editBannerFile');
       }
 
       document.getElementById('editModal').style.display = 'flex';
@@ -2343,8 +2739,13 @@
     function closeEditModal() {
       document.getElementById('editModal').style.display = 'none';
       document.getElementById('editForm').reset();
+      document.getElementById('editTitle').required = true;
+      document.getElementById('editSortOrder').style.display = '';
       clearFile('editImage');
       clearFile('editVideo');
+      clearBannerFile('editBannerPreview', 'editBannerFile');
+      const assetGroup = document.getElementById('editBannerAssetGroup');
+      if (assetGroup) assetGroup.style.display = 'none';
     }
 
     // Save Edit Form Handler
@@ -2370,7 +2771,9 @@
         let endpoint = '';
         let reloadFn = null;
 
-        if (type === 'storyCat') {
+        if (type === 'banner') {
+          // Handled separately below after endpoint is set
+        } else if (type === 'storyCat') {
           endpoint = `market-story-categories/${id}`;
           reloadFn = loadStoryCategories;
 
@@ -2431,6 +2834,30 @@
           }
         }
 
+        if (type === 'banner') {
+          endpoint = `admin/banners/${id}`;
+          reloadFn = loadBanners;
+
+          const sortNum = document.getElementById('editBannerSortNumber').value;
+          if (!sortNum) {
+            showToast('error', 'Sort Number Required', 'Please enter a sort number.');
+            setButtonLoading(btn, false);
+            return;
+          }
+          body.sortNumber = parseInt(sortNum);
+          // title is optional for banners
+          const bannerTitle = document.getElementById('editTitle').value.trim();
+          body.title = bannerTitle || undefined;
+
+          const bannerFile = document.getElementById('editBannerFile');
+          if (bannerFile && bannerFile.files[0]) {
+            setButtonLoading(btn, true, 'Uploading asset…');
+            const uploadResult = await uploadFileToS3(bannerFile.files[0], S3_FOLDERS.BANNER);
+            body.assetUrl = uploadResult.key;
+            body.assetType = bannerFile.files[0].type.startsWith('video/') ? 'video' : 'image';
+          }
+        }
+
         await apiPatch(endpoint, body);
         showToast('success', 'Changes Saved', `"${body.title}" has been updated successfully.`);
         closeEditModal();
@@ -2441,6 +2868,75 @@
         setButtonLoading(btn, false);
       }
     });
+
+    // ────────────────────── BANNER LOAD & CRUD ──────────────────────
+    async function loadBanners() {
+      try {
+        const banners = await apiGet('admin/banners');
+        entityStore.banners = banners;
+        const container = document.getElementById('bannersList');
+
+        if (!banners.length) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">🖼️</div>No banners yet</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        banners.forEach(banner => {
+          const isVideo = banner.assetType === 'video';
+          const thumbHtml = banner.assetUrl
+            ? (isVideo
+              ? `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg-secondary);">🎬</div>`
+              : `<img class="list-item-thumb" src="${banner.assetUrl}" alt="" style="border-radius:6px;">`)
+            : `<div class="list-item-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px;">🖼️</div>`;
+
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            ${thumbHtml}
+            <div class="list-item-info">
+              <div class="list-item-title">${escapeHtml(banner.title || '(No title)')}</div>
+              <div class="list-item-meta">
+                <span>${isVideo ? '🎬 Video' : '🖼️ Image'}</span>
+                <span>Sort #${banner.sortNumber}</span>
+              </div>
+            </div>
+            <span class="list-item-id" onclick="copyToClipboard('${banner.id}')" title="Click to copy">${banner.id}</span>
+            <span class="status-badge ${banner.isActive ? 'active' : 'inactive'}" onclick="toggleBannerStatus('${banner.id}')" title="Click to toggle status">
+              ${banner.isActive ? 'Active' : 'Inactive'}
+            </span>
+            <div class="list-item-actions">
+              <button class="btn-icon" onclick="openEditModal('banner', '${banner.id}')" title="Edit Banner">✏️</button>
+              <button class="btn-icon btn-danger" onclick="deleteBanner('${banner.id}', '${escapeHtml(banner.title || 'this banner')}')" title="Delete Banner">🗑️</button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        showToast('error', 'Load Failed', err.message);
+      }
+    }
+
+    async function toggleBannerStatus(id) {
+      try {
+        await apiPatch(`admin/banners/toggle/${id}`);
+        showToast('success', 'Status Updated', 'Banner status toggled.');
+        loadBanners();
+      } catch (err) {
+        showToast('error', 'Toggle Failed', err.message);
+      }
+    }
+
+    async function deleteBanner(id, title) {
+      if (!confirm(`Delete banner "${title}"?\n\nThis action cannot be undone.`)) return;
+      try {
+        await apiDelete(`admin/banners/${id}`);
+        showToast('success', 'Deleted', `"${title}" has been removed.`);
+        loadBanners();
+      } catch (err) {
+        showToast('error', 'Delete Failed', err.message);
+      }
+    }
 
     // ────────────────────── CREATE FORM SUBMISSIONS ──────────────────────
 
@@ -2644,6 +3140,61 @@
         clearFile('insightItemVideo');
         document.getElementById('insightItemActive').checked = true;
         loadInsightItems();
+      } catch (err) {
+        showToast('error', 'Creation Failed', err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    });
+
+    // ── 6. Create Banner ──
+    document.getElementById('formBanner').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnCreateBanner');
+      setButtonLoading(btn, true, 'Uploading…');
+
+      try {
+        const fileInput = document.getElementById('bannerFile');
+        if (!fileInput.files[0]) {
+          showToast('error', 'No File', 'Please select an image or video for the banner.');
+          setButtonLoading(btn, false);
+          return;
+        }
+
+        const sortNumber = document.getElementById('bannerSortNumber').value;
+        if (!sortNumber) {
+          showToast('error', 'Sort Number Required', 'Please enter a sort number.');
+          setButtonLoading(btn, false);
+          return;
+        }
+
+        const file = fileInput.files[0];
+        const assetType = file.type.startsWith('video/') ? 'video' : 'image';
+
+        // Step 1: Upload file to S3
+        const uploadResult = await uploadFileToS3(file, S3_FOLDERS.BANNER);
+
+        // Step 2: Send JSON to admin/banners with the S3 key
+        const body = {
+          assetUrl: uploadResult.key,
+          assetType,
+          sortNumber: parseInt(sortNumber),
+          isActive: document.getElementById('bannerActive').checked,
+        };
+
+        const title = document.getElementById('bannerTitle').value.trim();
+        if (title) body.title = title;
+
+        const desc = document.getElementById('bannerDesc').value.trim();
+        if (desc) body.description = desc;
+
+        await apiPost('admin/banners', body);
+
+        showToast('success', 'Banner Created', `Banner #${sortNumber} created successfully.`);
+        e.target.reset();
+        clearBannerFile();
+        document.getElementById('bannerActive').checked = true;
+        loadBanners();
       } catch (err) {
         showToast('error', 'Creation Failed', err.message);
       } finally {
